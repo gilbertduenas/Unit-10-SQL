@@ -158,9 +158,9 @@ WHERE actor.actor_id IN (
 */
 SELECT customer.first_name, customer.last_name, customer.email, country.country
 FROM customer
-JOIN address ON customer.address_id = address.address_id
-JOIN city ON address.city_id = city.city_id
-JOIN country ON city.country_id = country.country_id
+	JOIN address ON customer.address_id = address.address_id
+	JOIN city ON address.city_id = city.city_id
+	JOIN country ON city.country_id = country.country_id
 WHERE country.country = 'canada';
 
 /*
@@ -179,8 +179,8 @@ WHERE rating = 'pg';
 */
 SELECT film.title, film.film_id, inventory.inventory_id, rental.rental_id, count(*) AS 'Count'
 FROM film
-JOIN inventory ON film.film_id = inventory.film_id
-JOIN rental ON inventory.inventory_id = rental.inventory_id
+	JOIN inventory ON film.film_id = inventory.film_id
+	JOIN rental ON inventory.inventory_id = rental.inventory_id
 GROUP BY film.title
 ORDER BY id_count DESC;
 
@@ -189,9 +189,9 @@ ORDER BY id_count DESC;
 */
 SELECT store.store_id, CONCAT('$', FORMAT(SUM(payment.amount), 2)) AS 'Sales'
 FROM store
-JOIN staff ON store.store_id = staff.store_id
-JOIN rental ON staff.staff_id = rental.staff_id
-JOIN payment ON rental.rental_id = payment.payment_id
+	JOIN staff ON store.store_id = staff.store_id
+	JOIN rental ON staff.staff_id = rental.staff_id
+	JOIN payment ON rental.rental_id = payment.payment_id
 GROUP BY store.store_id;
 
 /*
@@ -199,20 +199,20 @@ GROUP BY store.store_id;
 */
 SELECT store.store_id, city.city, country.country
 FROM store
-JOIN address ON store.address_id = address.address_id
-JOIN city ON address.city_id = city.city_id
-JOIN country ON city.country_id = country.country_id;
+	JOIN address ON store.address_id = address.address_id
+	JOIN city ON address.city_id = city.city_id
+	JOIN country ON city.country_id = country.country_id;
 
 /*
 7h. List the top five genres in gross revenue in descending order. (Hint: you may need to use the following tables: category, film_category, inventory, payment, and rental.)
 */
 SELECT category.name, CONCAT('$', FORMAT(SUM(payment.amount), 2)) AS 'Sales'
 FROM category
-JOIN film_category ON film_category.category_id = category.category_id
-JOIN film ON film.film_id = film_category.film_id
-JOIN inventory ON inventory.inventory_id = film.film_id
-JOIN rental ON rental.inventory_id = inventory.inventory_id
-JOIN payment ON payment.rental_id = rental.rental_id
+	JOIN film_category ON film_category.category_id = category.category_id
+	JOIN film ON film.film_id = film_category.film_id
+	JOIN inventory ON inventory.inventory_id = film.film_id
+	JOIN rental ON rental.inventory_id = inventory.inventory_id
+	JOIN payment ON payment.rental_id = rental.rental_id
 GROUP BY category.name
 ORDER BY SUM(payment.amount) DESC
 LIMIT 5;
@@ -223,11 +223,11 @@ LIMIT 5;
 CREATE VIEW executive_view AS
 SELECT category.name, CONCAT('$', FORMAT(SUM(payment.amount), 2)) AS 'Sales'
 FROM category
-JOIN film_category ON film_category.category_id = category.category_id
-JOIN film ON film.film_id = film_category.film_id
-JOIN inventory ON inventory.inventory_id = film.film_id
-JOIN rental ON rental.inventory_id = inventory.inventory_id
-JOIN payment ON payment.rental_id = rental.rental_id
+	JOIN film_category ON film_category.category_id = category.category_id
+	JOIN film ON film.film_id = film_category.film_id
+	JOIN inventory ON inventory.inventory_id = film.film_id
+	JOIN rental ON rental.inventory_id = inventory.inventory_id
+	JOIN payment ON payment.rental_id = rental.rental_id
 GROUP BY category.name
 ORDER BY SUM(payment.amount) DESC
 LIMIT 5;
